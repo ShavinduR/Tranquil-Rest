@@ -253,13 +253,13 @@ function Hero() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(14,31,24,0.55)_75%)]" />
 
       <div className="relative mx-auto w-full max-w-5xl px-5 pb-20 pt-32 text-center lg:px-8">
-        <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#D8C9A3]/30 bg-[#10241C]/40 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.25em] text-[#E9DFC7] backdrop-blur">
+        <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#D8C9A3]/30 bg-[#10241C]/40 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#E9DFC7] backdrop-blur sm:text-xs sm:tracking-[0.25em]">
           <ShieldCheck className="h-4 w-4 text-[#3FB98A]" />
           Guest House · Kosnathota
         </p>
 
-        <h1 className="font-serif text-4xl font-semibold leading-tight text-[#F7F2E7] sm:text-5xl lg:text-6xl">
-          A Peaceful Getaway &amp;
+        <h1 className="font-serif text-[clamp(1.6rem,8.2vw,2.25rem)] font-semibold leading-tight text-[#F7F2E7] sm:text-5xl lg:text-6xl">
+          A Peaceful <span className="whitespace-nowrap">Getaway&nbsp;&amp;</span>
           <span className="block text-[#D8C9A3]">Highly Secure Stay</span>
         </h1>
 
