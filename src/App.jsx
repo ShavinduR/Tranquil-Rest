@@ -41,7 +41,7 @@ const CONTACT = {
 const LINKS = {
   facebook: 'https://web.facebook.com/people/Tranquil-Rest-Kosnathota/61594407407705/',
   instagram: 'https://www.instagram.com/tranquil_rest/',
-  maps: 'https://share.google/wZ7eXf38suhNNJAWw',
+  maps: 'https://maps.app.goo.gl/zrvxYwL6YupSsZNaA',
 }
 
 // Replace with a real photo of the property, e.g. '/images/river.jpg' placed in /public
@@ -168,23 +168,23 @@ function Navbar() {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-        <a href="#top" aria-label="Tranquil Rest – back to top" onClick={() => setOpen(false)}>
+        <a href="#top" title="Back to top" onClick={() => setOpen(false)}>
           <Logo />
         </a>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-8 lg:flex">
           {NAV_LINKS.map((l) => (
             <a
               key={l.id}
               href={`#${l.id}`}
-              className="text-sm font-medium tracking-wide text-[#E9DFC7]/80 transition hover:text-[#F2ECDF]"
+              className="whitespace-nowrap text-sm font-medium tracking-wide text-[#E9DFC7]/80 transition hover:text-[#F2ECDF]"
             >
               {l.label}
             </a>
           ))}
           <a
             href="#booking"
-            className="rounded-full bg-[#D8C9A3] px-5 py-2.5 text-sm font-semibold text-[#10241C] shadow-md transition hover:-translate-y-0.5 hover:bg-[#E9DFC7]"
+            className="whitespace-nowrap rounded-full bg-[#D8C9A3] px-5 py-2.5 text-sm font-semibold text-[#10241C] shadow-md transition hover:-translate-y-0.5 hover:bg-[#E9DFC7]"
           >
             Book Now
           </a>
@@ -192,7 +192,7 @@ function Navbar() {
 
         <button
           type="button"
-          className="rounded-lg p-2 text-[#F2ECDF] md:hidden"
+          className="rounded-lg p-2 text-[#F2ECDF] lg:hidden"
           onClick={() => setOpen((o) => !o)}
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
@@ -202,7 +202,7 @@ function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-[#D8C9A3]/10 px-5 pb-6 md:hidden">
+        <div className="border-t border-[#D8C9A3]/10 px-5 pb-6 lg:hidden">
           <div className="flex flex-col gap-1 pt-3">
             {NAV_LINKS.map((l) => (
               <a
@@ -556,7 +556,7 @@ function BookingEngine() {
             </ol>
             <a
               href={CONTACT.phoneHref}
-              className="relative mt-8 inline-flex items-center gap-2 text-sm text-white/80 underline-offset-4 hover:text-white hover:underline"
+              className="relative mt-8 inline-flex items-center gap-2 text-sm text-white underline underline-offset-4 hover:no-underline"
             >
               <Phone className="h-4 w-4" /> Prefer to call? {CONTACT.phoneDisplay}
             </a>
