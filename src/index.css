@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #10241c;
+  color: #f2ecdf;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Make the native date picker icon visible on the dark theme */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.85) sepia(0.3);
+  cursor: pointer;
+}
