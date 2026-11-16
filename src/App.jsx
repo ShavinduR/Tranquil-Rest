@@ -37,7 +37,7 @@ import {
 } from 'lucide-react'
 
 import { LanguageProvider, useLang } from './i18n.jsx'
-import { RATES } from './content.js'
+import { FAMILY_RATES, RATES } from './content.js'
 
 // Hero photo: self-hosted, optimised AVIF/WebP (see src/assets/hero).
 // To use your own photo, replace these files (keep the same names) or update the imports.
@@ -558,11 +558,28 @@ function FamilyRoomCard() {
         ))}
       </ul>
 
-      <div className="mt-6 flex flex-1 items-start">
-        <div className="flex w-full items-center justify-between gap-3 rounded-2xl border border-[#D8C9A3]/10 bg-[#10241C]/50 px-5 py-4">
-          <span className="text-[#E9DFC7]">{f.rateLabel}</span>
-          <span className="font-serif text-xl font-semibold text-[#F7F2E7]">{f.rateValue}</span>
-        </div>
+      <div className="mt-6 flex-1">
+        <ul className="divide-y divide-[#D8C9A3]/10 rounded-2xl border border-[#D8C9A3]/10 bg-[#10241C]/50">
+          <li className="flex items-center justify-between gap-3 px-5 py-4">
+            <span className="flex items-center gap-3 text-[#E9DFC7]">
+              <Moon className="h-4 w-4 shrink-0 text-[#D8C9A3]" />
+              {t.rooms.rateLabels.night}
+            </span>
+            <span className="whitespace-nowrap text-right">
+              <span className="text-xs text-[#BFB396]">LKR </span>
+              <span className="font-serif text-2xl font-semibold text-[#F7F2E7]">
+                {FAMILY_RATES.night.toLocaleString('en-LK')}
+              </span>
+            </span>
+          </li>
+          <li className="flex items-center justify-between gap-3 px-5 py-4">
+            <span className="flex items-center gap-3 text-[#E9DFC7]">
+              <Clock className="h-4 w-4 shrink-0 text-[#D8C9A3]" />
+              {f.otherRatesLabel}
+            </span>
+            <span className="whitespace-nowrap text-sm font-medium text-[#D8C9A3]">{f.rateValue}</span>
+          </li>
+        </ul>
       </div>
 
       <a
@@ -786,12 +803,14 @@ function BookingEngine() {
   const [error, setError] = useState('')
 
   const today = todayISO()
-  const rate = RATES[stay]
   const nights = stay === 'night' ? Math.max(0, nightsBetween(checkIn, checkOut)) : 0
   const isFamily = roomType === 'family'
   const roomCounts = Array.from({ length: MAX_ROOMS[roomType] }, (_, i) => i + 1)
   // Family Room rate is not published yet, so no estimate is calculated for it
-  const total = isFamily ? null : stay === 'night' ? (nights > 0 ? rate * nights * rooms : null) : rate * rooms
+  const rateFor = (s) => (isFamily ? (FAMILY_RATES[s] ?? null) : RATES[s])
+  const rate = rateFor(stay)
+  // Family Room only has a published night rate; other stays are confirmed on WhatsApp
+  const total = rate === null ? null : stay === 'night' ? (nights > 0 ? rate * nights * rooms : null) : rate * rooms
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -905,7 +924,7 @@ function BookingEngine() {
                     />
                     <span className="block text-sm font-semibold leading-tight">{b.stays[s]}</span>
                     <span className={`mt-1 block text-xs ${stay === s ? 'text-[#E9DFC7]' : 'text-[#BFB396]'}`}>
-                      {t.currency(RATES[s])} · {b.stayHints[s]}
+                      {rateFor(s) ? t.currency(rateFor(s)) : b.onRequest} · {b.stayHints[s]}
                     </span>
                   </label>
                 ))}
@@ -1065,7 +1084,7 @@ function BookingEngine() {
                 <div>
                   <p className="text-sm font-medium text-[#E9DFC7]">{b.estimate}</p>
                   <p className="text-xs text-[#BFB396]">
-                    {isFamily
+                    {rate === null
                       ? b.familyEstimate
                       : total
                         ? b.breakdown({ rate, nights, rooms, stay })
@@ -1074,7 +1093,7 @@ function BookingEngine() {
                 </div>
               </div>
               <p className="whitespace-nowrap font-serif text-2xl font-semibold text-[#F7F2E7]">
-                {total ? t.currency(total) : isFamily ? b.onRequest : '—'}
+                {total ? t.currency(total) : rate === null ? b.onRequest : '—'}
               </p>
             </div>
             <p className="mt-2 text-xs text-[#BFB396]">{b.estimateNote}</p>

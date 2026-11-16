@@ -6,6 +6,8 @@
 /* ------------------------------------------------------------------ */
 
 export const RATES = { night: 2500, day: 2000, short: 1500 }
+// Family Room: only the night rate is published; day use / short stay are on request
+export const FAMILY_RATES = { night: 4000 }
 
 const fmtLKR = (n) => n.toLocaleString('en-LK')
 
@@ -98,7 +100,7 @@ export const content = {
         count: '1 room · 2 double beds',
         text: 'A spacious room with two double beds, dedicated to families travelling together. Same peaceful setting and secure parking.',
         amenities: ['Two double beds', 'Attached bathroom', 'Fresh towels & linen', 'Dressing table & mirror', 'Fan', 'Free Wi-Fi'],
-        rateLabel: 'Rate',
+        otherRatesLabel: 'Day Use & Short Stay',
         rateValue: 'On request',
         cta: 'Ask about the Family Room',
         ctaMsg: "Hello Tranquil Rest! I'd like to ask about the Family Room (2 double beds). What is the rate, and is it available?",
@@ -141,9 +143,9 @@ export const content = {
       roomStandard: 'Standard Room (1 double bed)',
       roomFamily: 'Family Room (2 double beds)',
       roomAC: 'Premium AC Room – Coming Soon',
-      familyEstimate: 'Family Room rate is confirmed on WhatsApp',
+      familyEstimate: 'Family Room day use / short stay rate is confirmed on WhatsApp',
       onRequest: 'On request',
-      rateToConfirm: 'Rate to be confirmed (Family Room)',
+      rateToConfirm: 'Rate to be confirmed',
       roomsCount: 'Rooms',
       guests: 'Guests',
       vehicle: 'Vehicle',
@@ -226,7 +228,7 @@ export const content = {
         },
         {
           q: 'Do you have a room for families?',
-          a: 'Yes. Our Family Room has two double beds and is dedicated to families travelling together. It has its own attached bathroom too. Ask us on WhatsApp for the rate and availability.',
+          a: 'Yes. Our Family Room has two double beds and is dedicated to families travelling together. It has its own attached bathroom too, and costs LKR 4,000 per night. Ask us on WhatsApp for availability.',
         },
         {
           q: 'Do the rooms have attached bathrooms?',
@@ -348,7 +350,7 @@ export const content = {
         count: 'කාමර 1 · ඩබල් ඇඳන් 2',
         text: 'පවුලක් ලෙස එකට ගමන් කරන අය සඳහාම වෙන් කළ, ඩබල් ඇඳන් දෙකක් සහිත ඉඩකඩ ඇති කාමරයක්. එම සාමකාමී පරිසරය සහ ආරක්ෂිත වාහන නැවැත්වීම සමඟ.',
         amenities: ['ඩබල් ඇඳන් දෙකක්', 'කාමරයටම අයත් නාන කාමරය', 'නැවුම් තුවා සහ ඇඳ ඇතිරිලි', 'කැඩපත සහිත ඇඳුම් මේසය', 'විදුලි පංකාව', 'නොමිලේ Wi-Fi'],
-        rateLabel: 'ගාස්තුව',
+        otherRatesLabel: 'දිවා කාලය සහ කෙටි කාලීන',
         rateValue: 'විමසන්න',
         cta: 'පවුල් කාමරය ගැන විමසන්න',
         ctaMsg: 'ආයුබෝවන් Tranquil Rest! ඩබල් ඇඳන් දෙකක් සහිත පවුල් කාමරය ගැන දැනගැනීමට කැමතියි. ගාස්තුව කීයද, එය ලබා ගත හැකිද?',
@@ -391,9 +393,9 @@ export const content = {
       roomStandard: 'සාමාන්‍ය කාමරය (ඩබල් ඇඳ 1)',
       roomFamily: 'පවුල් කාමරය (ඩබල් ඇඳන් 2)',
       roomAC: 'ප්‍රිමියම් AC කාමරය – ළඟදීම',
-      familyEstimate: 'පවුල් කාමරයේ ගාස්තුව WhatsApp හරහා තහවුරු කෙරේ',
+      familyEstimate: 'පවුල් කාමරයේ දිවා / කෙටි කාලීන ගාස්තුව WhatsApp හරහා තහවුරු කෙරේ',
       onRequest: 'විමසන්න',
-      rateToConfirm: 'ගාස්තුව තහවුරු කළ යුතුය (පවුල් කාමරය)',
+      rateToConfirm: 'ගාස්තුව තහවුරු කළ යුතුය',
       roomsCount: 'කාමර ගණන',
       guests: 'අමුත්තන් ගණන',
       vehicle: 'වාහනය',
@@ -476,7 +478,7 @@ export const content = {
         },
         {
           q: 'පවුල් සඳහා කාමරයක් තිබේද?',
-          a: 'ඔව්. අපගේ පවුල් කාමරයේ ඩබල් ඇඳන් දෙකක් ඇති අතර එය පවුල් සඳහාම වෙන් කර ඇත. එයටද කාමරයටම අයත් නාන කාමරයක් ඇත. ගාස්තුව සහ ලබා ගත හැකි බව WhatsApp හරහා විමසන්න.',
+          a: 'ඔව්. අපගේ පවුල් කාමරයේ ඩබල් ඇඳන් දෙකක් ඇති අතර එය පවුල් සඳහාම වෙන් කර ඇත. එයටද කාමරයටම අයත් නාන කාමරයක් ඇති අතර රාත්‍රියකට ගාස්තුව රු. 4,000කි. ලබා ගත හැකි බව WhatsApp හරහා විමසන්න.',
         },
         {
           q: 'කාමරවලට අයත් නාන කාමර තිබේද?',
