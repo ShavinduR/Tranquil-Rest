@@ -489,7 +489,19 @@ function Rooms() {
         <div className="grid gap-8 md:grid-cols-2">
           {/* Standard Non-AC – available */}
           <article className="relative flex flex-col rounded-3xl border border-[#3FB98A]/40 bg-gradient-to-b from-[#1A3A2D] to-[#132C22] p-8 shadow-2xl shadow-[#0C7350]/15">
-            <span className="absolute -top-3 left-8 rounded-full bg-[#0C7350] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+            <picture className="relative -mx-8 -mt-8 mb-6 block aspect-[16/9] overflow-hidden rounded-t-3xl">
+              <source type="image/avif" srcSet={gsrc('room-bed', 800, 'avif')} />
+              <img
+                src={gsrc('room-bed', 800, 'webp')}
+                alt={t.gallery.captions['room-bed']}
+                width="800"
+                height="450"
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
+            </picture>
+            <span className="absolute -top-3 left-8 z-10 rounded-full bg-[#0C7350] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
               {t.rooms.available}
             </span>
             <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0C7350]/30 text-[#3FB98A] ring-1 ring-[#3FB98A]/30">
@@ -552,7 +564,22 @@ function FamilyRoomCard() {
   const f = t.rooms.family
   return (
     <article className="relative flex flex-col rounded-3xl border border-[#3FB98A]/40 bg-gradient-to-b from-[#1A3A2D] to-[#132C22] p-8 shadow-2xl shadow-[#0C7350]/15">
-      <span className="absolute -top-3 left-8 rounded-full bg-[#0C7350] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+      <picture className="relative -mx-8 -mt-8 mb-6 block aspect-[16/9] overflow-hidden rounded-t-3xl">
+        <source type="image/avif" srcSet={gsrc('bathroom', 800, 'avif')} />
+        <img
+          src={gsrc('bathroom', 800, 'webp')}
+          alt={t.gallery.captions['bathroom']}
+          width="800"
+          height="450"
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover"
+        />
+        <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-4 pb-3 pt-8 text-sm font-medium text-white">
+          {f.photoNote}
+        </span>
+      </picture>
+      <span className="absolute -top-3 left-8 z-10 rounded-full bg-[#0C7350] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
         {t.rooms.available}
       </span>
       <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0C7350]/30 text-[#3FB98A] ring-1 ring-[#3FB98A]/30">
@@ -646,7 +673,18 @@ function ComingSoonCard({ icon: Icon, title, text, features }) {
 /* ------------------------------------------------------------------ */
 
 const GALLERY_FILES = import.meta.glob('./assets/gallery/*.{avif,webp}', { eager: true, import: 'default' })
-const GALLERY = ['exterior-driveway', 'front-entrance', 'welcome-sign', 'garden-path']
+const GALLERY = [
+  { name: 'room-bed', cat: 'rooms' },
+  { name: 'exterior-driveway', cat: 'outside' },
+  { name: 'bathroom', cat: 'bathrooms' },
+  { name: 'front-entrance', cat: 'outside' },
+  { name: 'room-dressing-table', cat: 'rooms' },
+  { name: 'welcome-sign', cat: 'outside' },
+  { name: 'room-ensuite', cat: 'rooms' },
+  { name: 'bathroom-vanity', cat: 'bathrooms' },
+  { name: 'garden-path', cat: 'outside' },
+]
+const GALLERY_FILTERS = ['all', 'outside', 'rooms', 'bathrooms']
 const gsrc = (name, size, ext) => GALLERY_FILES[`./assets/gallery/${name}-${size}.${ext}`]
 
 function Gallery() {
@@ -657,7 +695,9 @@ function Gallery() {
   const touchX = useRef(null)
 
   const open = index !== null
-  const go = (step) => setIndex((i) => (i + step + GALLERY.length) % GALLERY.length)
+  const [filter, setFilter] = useState('all')
+  const items = GALLERY.filter((p) => filter === 'all' || p.cat === filter).map((p) => p.name)
+  const go = (step) => setIndex((i) => (i + step + items.length) % items.length)
 
   useEffect(() => {
     const d = dialogRef.current
@@ -671,15 +711,33 @@ function Gallery() {
     if (e.key === 'ArrowLeft') go(-1)
   }
 
-  const name = open ? GALLERY[index] : null
+  const name = open ? items[index] : null
 
   return (
     <section id="gallery" className="relative px-5 py-24 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <SectionHeading eyebrow={g.eyebrow} title={g.title} subtitle={g.subtitle} />
 
-        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-          {GALLERY.map((n, i) => (
+        <div role="group" aria-label={g.filterLabel} className="mb-8 flex flex-wrap justify-center gap-2">
+          {GALLERY_FILTERS.map((f) => (
+            <button
+              key={f}
+              type="button"
+              aria-pressed={filter === f}
+              onClick={() => setFilter(f)}
+              className={`rounded-full border px-5 py-2 text-sm font-medium transition ${
+                filter === f
+                  ? 'border-[#3FB98A] bg-[#0C7350] text-white'
+                  : 'border-[#D8C9A3]/25 text-[#E9DFC7] hover:border-[#D8C9A3]/50 hover:bg-[#D8C9A3]/10'
+              }`}
+            >
+              {g.filters[f]}
+            </button>
+          ))}
+        </div>
+
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+          {items.map((n, i) => (
             <li key={n}>
               <button
                 type="button"
@@ -733,7 +791,7 @@ function Gallery() {
         {name && (
           <div className="flex h-full flex-col items-center justify-center gap-4 px-4 py-6 sm:px-16">
             <div className="flex w-full max-w-5xl items-center justify-between text-sm text-white/80">
-              <span>{g.counter(index + 1, GALLERY.length)}</span>
+              <span>{g.counter(index + 1, items.length)}</span>
               <button
                 type="button"
                 onClick={() => setIndex(null)}
