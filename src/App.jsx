@@ -25,6 +25,15 @@ import {
   X,
 } from 'lucide-react'
 
+// Hero photo: self-hosted, optimised AVIF/WebP (see src/assets/hero).
+// To use your own photo, replace these files (keep the same names) or update the imports.
+import heroMobileAvif from './assets/hero/hero-mobile-750.avif'
+import heroMobileWebp from './assets/hero/hero-mobile-750.webp'
+import hero1280Avif from './assets/hero/hero-1280.avif'
+import hero1280Webp from './assets/hero/hero-1280.webp'
+import hero1920Avif from './assets/hero/hero-1920.avif'
+import hero1920Webp from './assets/hero/hero-1920.webp'
+
 /* ------------------------------------------------------------------ */
 /*  Site configuration                                                 */
 /* ------------------------------------------------------------------ */
@@ -43,10 +52,6 @@ const LINKS = {
   instagram: 'https://www.instagram.com/tranquil_rest/',
   maps: 'https://maps.app.goo.gl/zrvxYwL6YupSsZNaA',
 }
-
-// Replace with a real photo of the property, e.g. '/images/river.jpg' placed in /public
-const HERO_IMAGE =
-  'https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=2000&q=80'
 
 const NAV_LINKS = [
   { id: 'why-us', label: 'Why Us' },
@@ -240,14 +245,26 @@ const TRUST_BADGES = [
 
 function Hero() {
   return (
-    <section id="top" className="relative flex min-h-screen items-center overflow-hidden bg-gradient-to-br from-[#163A2C] via-[#10241C] to-[#0B1A14]">
-      <img
-        src={HERO_IMAGE}
-        alt=""
-        aria-hidden="true"
-        onError={(e) => (e.currentTarget.style.display = 'none')}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+    <section id="top" className="relative flex min-h-svh items-center overflow-hidden bg-gradient-to-br from-[#163A2C] via-[#10241C] to-[#0B1A14]">
+      {/* Portrait crop on phones, landscape on larger screens. fetchPriority=high: this is the LCP image. */}
+      <picture>
+        <source media="(max-width: 767px)" type="image/avif" srcSet={heroMobileAvif} />
+        <source media="(max-width: 767px)" type="image/webp" srcSet={heroMobileWebp} />
+        <source type="image/avif" srcSet={`${hero1280Avif} 1280w, ${hero1920Avif} 1920w`} sizes="100vw" />
+        <img
+          src={hero1280Webp}
+          srcSet={`${hero1280Webp} 1280w, ${hero1920Webp} 1920w`}
+          sizes="100vw"
+          width="1920"
+          height="1080"
+          alt=""
+          aria-hidden="true"
+          fetchPriority="high"
+          decoding="async"
+          onError={(e) => (e.currentTarget.style.display = 'none')}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </picture>
       {/* Dark forest overlay for readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#0E1F18]/85 via-[#10241C]/70 to-[#10241C]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(14,31,24,0.55)_75%)]" />
@@ -396,9 +413,9 @@ function Rooms() {
           subtitle="Comfortable, well-furnished rooms at fair rates, with more on the way."
         />
 
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {/* Standard Non-AC – available */}
-          <article className="relative flex flex-col rounded-3xl border border-[#3FB98A]/40 bg-gradient-to-b from-[#1A3A2D] to-[#132C22] p-8 shadow-2xl shadow-[#0C7350]/15 lg:col-span-1">
+          <article className="relative flex flex-col rounded-3xl border border-[#3FB98A]/40 bg-gradient-to-b from-[#1A3A2D] to-[#132C22] p-8 shadow-2xl shadow-[#0C7350]/15 md:col-span-2 lg:col-span-1">
             <span className="absolute -top-3 left-8 rounded-full bg-[#0C7350] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
               Available Now
             </span>
@@ -647,9 +664,9 @@ const SOCIALS = [
 
 function Footer() {
   return (
-    <footer id="contact" className="border-t border-[#D8C9A3]/10 bg-[#0B1A14] px-5 pt-16 lg:px-8">
-      <div className="mx-auto grid max-w-6xl gap-12 pb-12 md:grid-cols-3">
-        <div>
+    <footer id="contact" className="border-t border-[#D8C9A3]/10 bg-[#0B1A14] px-5 pb-20 pt-16 md:pb-0 lg:px-8">
+      <div className="mx-auto grid max-w-6xl gap-12 pb-12 md:grid-cols-2 lg:grid-cols-3">
+        <div className="md:col-span-2 lg:col-span-1">
           <Logo />
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-[#BFB396]">
             A family-run, highly secure river-side guest house in Kosnathota. Your home away from home, with
@@ -674,7 +691,7 @@ function Footer() {
             </li>
             <li className="flex items-center gap-3 text-[#E9DFC7]/85">
               <Mail className="h-5 w-5 shrink-0 text-[#3FB98A]" />
-              <a href={`mailto:${CONTACT.email}`} className="break-all hover:text-[#F2ECDF]">
+              <a href={`mailto:${CONTACT.email}`} className="break-words hover:text-[#F2ECDF]">
                 {CONTACT.email}
               </a>
             </li>
@@ -718,8 +735,30 @@ function Footer() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Floating WhatsApp button (mobile convenience)                      */
+/*  Quick contact: sticky Call / WhatsApp bar on phones,               */
+/*  floating WhatsApp button on tablets and desktops                   */
 /* ------------------------------------------------------------------ */
+
+function MobileActionBar() {
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-3 border-t border-[#D8C9A3]/15 bg-[#10241C]/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md md:hidden">
+      <a
+        href={CONTACT.phoneHref}
+        className="flex items-center justify-center gap-2 rounded-full border border-[#D8C9A3]/40 py-3 font-semibold text-[#E9DFC7] active:bg-[#D8C9A3]/10"
+      >
+        <Phone className="h-4 w-4" /> Call
+      </a>
+      <a
+        href={waLink('Hello Tranquil Rest! I would like to make a booking.')}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 rounded-full bg-[#25D366] py-3 font-semibold text-[#0E1F18] active:bg-[#3EE07A]"
+      >
+        <MessageCircle className="h-4 w-4" /> WhatsApp
+      </a>
+    </div>
+  )
+}
 
 function FloatingWhatsApp() {
   return (
@@ -728,7 +767,7 @@ function FloatingWhatsApp() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
-      className="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-[#0E1F18] shadow-xl shadow-black/30 transition hover:scale-105"
+      className="fixed bottom-5 right-5 z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-[#0E1F18] shadow-xl shadow-black/30 transition hover:scale-105 md:flex"
     >
       <MessageCircle className="h-7 w-7" />
     </a>
@@ -751,6 +790,7 @@ export default function App() {
       </main>
       <Footer />
       <FloatingWhatsApp />
+      <MobileActionBar />
     </div>
   )
 }
