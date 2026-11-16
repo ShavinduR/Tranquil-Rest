@@ -30,7 +30,7 @@ export const content = {
     currency: (n) => `LKR ${fmtLKR(n)}`,
 
     logoSub: 'Kosnathota · Godakawela',
-    nav: { why: 'Why Us', rooms: 'Rooms & Rates', faq: 'FAQ', contact: 'Contact' },
+    nav: { why: 'Why Us', rooms: 'Rooms & Rates', gallery: 'Photos', faq: 'FAQ', contact: 'Contact' },
     bookNow: 'Book Now',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
@@ -43,7 +43,7 @@ export const content = {
       titleLine2: 'Highly Secure Stay',
       sub: 'Kosnathota, Godakawela | Your Safe and Relaxing River-side Retreat',
       bookWA: 'Book via WhatsApp',
-      viewRooms: 'View Rooms & Rates',
+      call: 'Call 071 630 4642',
       badges: ['On-site Security · CCTV coming soon', 'Spacious Secure Parking', 'Peaceful River-side Nature'],
       waMsg: 'Hello Tranquil Rest! I would like to make a booking.',
     },
@@ -88,6 +88,8 @@ export const content = {
       available: 'Available Now',
       standardTitle: 'Standard Non-AC Room',
       standardText: 'Clean, airy and comfortable, with secure parking included.',
+      amenitiesTitle: "What's in the room",
+      amenities: ['Double bed', 'Attached bathroom', 'Fresh towels & linen', 'Dressing table & mirror', 'Fan', 'Free Wi-Fi'],
       rateLabels: { day: 'Day Use', night: 'Night', short: 'Short Stay' },
       checkAvail: 'Check Availability',
       comingSoon: 'Coming Soon',
@@ -168,6 +170,23 @@ export const content = {
         ].join('\n'),
     },
 
+    gallery: {
+      eyebrow: 'Photos',
+      title: 'Take a look around',
+      subtitle: 'Real photos of Tranquil Rest in Kosnathota. Tap any photo to see it larger.',
+      open: 'Open photo',
+      close: 'Close',
+      prev: 'Previous photo',
+      next: 'Next photo',
+      counter: (i, n) => `${i} of ${n}`,
+      captions: {
+        'exterior-driveway': 'The guest house and its concrete driveway, surrounded by tall trees',
+        'front-entrance': 'Front entrance with timber doors and windows',
+        'welcome-sign': 'Welcome to Tranquil Rest',
+        'garden-path': 'A shaded path through the tropical garden',
+      },
+    },
+
     faq: {
       eyebrow: 'FAQ',
       title: 'Good to know',
@@ -201,7 +220,7 @@ export const content = {
         },
         {
           q: 'How do I book? Are there any fees?',
-          a: 'Book directly on WhatsApp or by phone (074 232 7807). There are no booking fees and no third-party commissions.',
+          a: 'Book directly on WhatsApp or by phone (071 630 4642). There are no booking fees and no third-party commissions.',
         },
         {
           q: 'Where exactly are you?',
@@ -238,7 +257,7 @@ export const content = {
     currency: (n) => `රු. ${fmtLKR(n)}`,
 
     logoSub: 'කොස්නතොට · ගොඩකවෙල',
-    nav: { why: 'ඇයි අප?', rooms: 'කාමර සහ ගාස්තු', faq: 'ප්‍රශ්න', contact: 'සම්බන්ධ වන්න' },
+    nav: { why: 'ඇයි අප?', rooms: 'කාමර සහ ගාස්තු', gallery: 'ඡායාරූප', faq: 'ප්‍රශ්න', contact: 'සම්බන්ධ වන්න' },
     bookNow: 'දැන්ම වෙන්කරන්න',
     openMenu: 'මෙනුව විවෘත කරන්න',
     closeMenu: 'මෙනුව වසන්න',
@@ -251,7 +270,7 @@ export const content = {
       titleLine2: 'ඉහළම ආරක්ෂාව සහිත නවාතැනක්',
       sub: 'කොස්නතොට, ගොඩකවෙල | ඔබට ආරක්ෂිතව සහ සැහැල්ලුවෙන් ගත කළ හැකි ගං ඉවුරේ නවාතැන',
       bookWA: 'WhatsApp හරහා වෙන්කරන්න',
-      viewRooms: 'කාමර සහ ගාස්තු බලන්න',
+      call: 'අමතන්න 071 630 4642',
       badges: ['ස්ථානයේම ආරක්ෂාව · CCTV ළඟදීම', 'ඉඩකඩ සහිත ආරක්ෂිත වාහන නැවැත්වීම', 'ගං ඉවුරේ සාමකාමී පරිසරය'],
       waMsg: 'ආයුබෝවන් Tranquil Rest! මට කාමරයක් වෙන්කර ගැනීමට අවශ්‍යයි.',
     },
@@ -296,6 +315,8 @@ export const content = {
       available: 'දැන් ලබා ගත හැක',
       standardTitle: 'සාමාන්‍ය Non-AC කාමරය',
       standardText: 'පිරිසිදු, වාතාශ්‍රය සහිත සහ සුවපහසු. ආරක්ෂිත වාහන නැවැත්වීම ද ඇතුළුව.',
+      amenitiesTitle: 'කාමරයේ ඇති පහසුකම්',
+      amenities: ['ඩබල් ඇඳ', 'කාමරයටම අයත් නාන කාමරය', 'නැවුම් තුවා සහ ඇඳ ඇතිරිලි', 'කැඩපත සහිත ඇඳුම් මේසය', 'විදුලි පංකාව', 'නොමිලේ Wi-Fi'],
       rateLabels: { day: 'දිවා කාලය', night: 'රාත්‍රිය', short: 'කෙටි කාලීන' },
       checkAvail: 'ලබා ගත හැකිදැයි බලන්න',
       comingSoon: 'ළඟදීම',
@@ -376,6 +397,23 @@ export const content = {
         ].join('\n'),
     },
 
+    gallery: {
+      eyebrow: 'ඡායාරූප',
+      title: 'අප වෙත එබී බලන්න',
+      subtitle: 'කොස්නතොට Tranquil Rest හි සැබෑ ඡායාරූප. විශාල කර බැලීමට ඕනෑම ඡායාරූපයක් ඔබන්න.',
+      open: 'ඡායාරූපය විවෘත කරන්න',
+      close: 'වසන්න',
+      prev: 'පෙර ඡායාරූපය',
+      next: 'ඊළඟ ඡායාරූපය',
+      counter: (i, n) => `${n} න් ${i}`,
+      captions: {
+        'exterior-driveway': 'උස් ගස්වලින් වට වූ නවාතැන සහ කොන්ක්‍රීට් වාහන මාර්‍ගය',
+        'front-entrance': 'දැව දොර සහ ජනෙල් සහිත ප්‍රධාන දොරටුව',
+        'welcome-sign': 'Tranquil Rest වෙත සාදරයෙන් පිළිගනිමු',
+        'garden-path': 'ගස් සෙවණ සහිත උයන හරහා යන මඟ',
+      },
+    },
+
     faq: {
       eyebrow: 'නිතර අසන ප්‍රශ්න',
       title: 'දැනගත යුතු දේ',
@@ -409,7 +447,7 @@ export const content = {
         },
         {
           q: 'වෙන්කරගන්නේ කෙසේද? ගාස්තු තිබේද?',
-          a: 'WhatsApp හෝ දුරකථනයෙන් (074 232 7807) කෙලින්ම වෙන්කරගන්න. වෙන්කිරීමේ ගාස්තු හෝ වෙනත් ආයතනවලට කොමිස් නැත.',
+          a: 'WhatsApp හෝ දුරකථනයෙන් (071 630 4642) කෙලින්ම වෙන්කරගන්න. වෙන්කිරීමේ ගාස්තු හෝ වෙනත් ආයතනවලට කොමිස් නැත.',
         },
         {
           q: 'ඔබ හරියටම කොහෙද?',

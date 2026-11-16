@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { track } from '@vercel/analytics'
 import {
@@ -20,6 +20,10 @@ import {
   Moon,
   Phone,
   ShieldCheck,
+  ChevronLeft,
+  ChevronRight,
+  Expand,
+  Check,
   Snowflake,
   Sparkles,
   Sun,
@@ -48,11 +52,11 @@ import hero1920Webp from './assets/hero/hero-1920.webp'
 /*  Site configuration                                                 */
 /* ------------------------------------------------------------------ */
 
-const WHATSAPP_NUMBER = '94742327807'
+const WHATSAPP_NUMBER = '94716304642'
 
 const CONTACT = {
-  phoneDisplay: '0742327807',
-  phoneHref: 'tel:+94742327807',
+  phoneDisplay: '071 630 4642',
+  phoneHref: 'tel:+94716304642',
   email: 'tranquilrestkosnathota@gmail.com',
 }
 
@@ -191,6 +195,7 @@ function Navbar() {
   const links = [
     { id: 'why-us', label: t.nav.why },
     { id: 'rooms', label: t.nav.rooms },
+    { id: 'gallery', label: t.nav.gallery },
     { id: 'faq', label: t.nav.faq },
     { id: 'contact', label: t.nav.contact },
   ]
@@ -318,7 +323,7 @@ function Hero() {
         />
       </picture>
       {/* Dark forest overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0E1F18]/85 via-[#10241C]/70 to-[#10241C]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0E1F18]/80 via-[#10241C]/60 to-[#10241C]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(14,31,24,0.55)_75%)]" />
 
       <div className="relative mx-auto w-full max-w-5xl px-5 pb-20 pt-32 text-center lg:px-8">
@@ -348,10 +353,12 @@ function Hero() {
             <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
           </a>
           <a
-            href="#rooms"
-            className="rounded-full border border-[#D8C9A3]/40 px-8 py-4 text-base font-medium text-[#E9DFC7] transition hover:bg-[#D8C9A3]/10"
+            href={CONTACT.phoneHref}
+            onClick={() => trackEvent('call_click', { source: 'hero' })}
+            className="inline-flex items-center gap-3 rounded-full border border-[#D8C9A3]/50 bg-[#10241C]/40 px-8 py-4 text-base font-semibold text-[#F2ECDF] backdrop-blur transition hover:-translate-y-0.5 hover:border-[#D8C9A3] hover:bg-[#D8C9A3]/10"
           >
-            {t.hero.viewRooms}
+            <Phone className="h-5 w-5 text-[#D8C9A3]" />
+            {t.hero.call}
           </a>
         </div>
 
@@ -477,6 +484,18 @@ function Rooms() {
             <h3 className="mt-5 font-serif text-2xl font-semibold text-[#F2ECDF]">{t.rooms.standardTitle}</h3>
             <p className="mt-2 text-sm text-[#BFB396]">{t.rooms.standardText}</p>
 
+            <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#D8C9A3]">
+              {t.rooms.amenitiesTitle}
+            </p>
+            <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-[#E9DFC7]">
+              {t.rooms.amenities.map((a) => (
+                <li key={a} className="flex items-start gap-2">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#3FB98A]" />
+                  {a}
+                </li>
+              ))}
+            </ul>
+
             <ul className="mt-6 flex-1 divide-y divide-[#D8C9A3]/10 rounded-2xl border border-[#D8C9A3]/10 bg-[#10241C]/50">
               {RATE_ROWS.map(({ key, icon: Icon }) => (
                 <li key={key} className="flex items-center justify-between gap-3 px-5 py-4">
@@ -535,6 +554,146 @@ function ComingSoonCard({ icon: Icon, title, text, features }) {
         {t.rooms.launching}
       </p>
     </article>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/*  Photo gallery                                                      */
+/*  Every photo lives in src/assets/gallery as <name>-800 (thumbnail)  */
+/*  and <name>-1600 (large), each in .avif and .webp. To add a photo:  */
+/*  add the files, add its name below, and add a caption for it in    */
+/*  content.js (gallery.captions) in both languages.                  */
+/* ------------------------------------------------------------------ */
+
+const GALLERY_FILES = import.meta.glob('./assets/gallery/*.{avif,webp}', { eager: true, import: 'default' })
+const GALLERY = ['exterior-driveway', 'front-entrance', 'welcome-sign', 'garden-path']
+const gsrc = (name, size, ext) => GALLERY_FILES[`./assets/gallery/${name}-${size}.${ext}`]
+
+function Gallery() {
+  const { t } = useLang()
+  const g = t.gallery
+  const [index, setIndex] = useState(null)
+  const dialogRef = useRef(null)
+  const touchX = useRef(null)
+
+  const open = index !== null
+  const go = (step) => setIndex((i) => (i + step + GALLERY.length) % GALLERY.length)
+
+  useEffect(() => {
+    const d = dialogRef.current
+    if (!d) return
+    if (open && !d.open) d.showModal()
+    if (!open && d.open) d.close()
+  }, [open])
+
+  const onKeyDown = (e) => {
+    if (e.key === 'ArrowRight') go(1)
+    if (e.key === 'ArrowLeft') go(-1)
+  }
+
+  const name = open ? GALLERY[index] : null
+
+  return (
+    <section id="gallery" className="relative px-5 py-24 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading eyebrow={g.eyebrow} title={g.title} subtitle={g.subtitle} />
+
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          {GALLERY.map((n, i) => (
+            <li key={n}>
+              <button
+                type="button"
+                onClick={() => {
+                  setIndex(i)
+                  trackEvent('gallery_open', { photo: n })
+                }}
+                aria-label={`${g.open}: ${g.captions[n]}`}
+                className="group relative block aspect-[4/3] w-full overflow-hidden rounded-2xl border border-[#D8C9A3]/12 bg-[#1A3A2D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3FB98A]"
+              >
+                <picture>
+                  <source type="image/avif" srcSet={gsrc(n, 800, 'avif')} />
+                  <img
+                    src={gsrc(n, 800, 'webp')}
+                    alt={g.captions[n]}
+                    width="800"
+                    height="600"
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                </picture>
+                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-3 pb-2.5 pt-8 text-left text-xs font-medium text-white sm:text-sm">
+                  {g.captions[n]}
+                </span>
+                <span className="absolute right-2.5 top-2.5 rounded-full bg-black/45 p-1.5 text-white opacity-0 transition group-hover:opacity-100">
+                  <Expand className="h-4 w-4" />
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Lightbox: native <dialog> gives focus trapping and Escape-to-close for free */}
+      <dialog
+        ref={dialogRef}
+        onClose={() => setIndex(null)}
+        onKeyDown={onKeyDown}
+        onClick={(e) => e.target === e.currentTarget && setIndex(null)}
+        onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+        onTouchEnd={(e) => {
+          if (touchX.current === null) return
+          const dx = e.changedTouches[0].clientX - touchX.current
+          if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1)
+          touchX.current = null
+        }}
+        aria-label={name ? g.captions[name] : g.title}
+        className="m-auto h-full max-h-none w-full max-w-none bg-transparent p-0 text-white backdrop:bg-black/90"
+      >
+        {name && (
+          <div className="flex h-full flex-col items-center justify-center gap-4 px-4 py-6 sm:px-16">
+            <div className="flex w-full max-w-5xl items-center justify-between text-sm text-white/80">
+              <span>{g.counter(index + 1, GALLERY.length)}</span>
+              <button
+                type="button"
+                onClick={() => setIndex(null)}
+                aria-label={g.close}
+                className="rounded-full bg-white/10 p-2.5 transition hover:bg-white/20"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <picture className="flex min-h-0 flex-1 items-center justify-center">
+              <source type="image/avif" srcSet={gsrc(name, 1600, 'avif')} />
+              <img
+                src={gsrc(name, 1600, 'webp')}
+                alt={g.captions[name]}
+                className="max-h-full max-w-full rounded-xl object-contain shadow-2xl"
+              />
+            </picture>
+            <p className="max-w-3xl text-center text-sm text-white/90 sm:text-base">{g.captions[name]}</p>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => go(-1)}
+                aria-label={g.prev}
+                className="rounded-full bg-white/10 p-3 transition hover:bg-white/20"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => go(1)}
+                aria-label={g.next}
+                className="rounded-full bg-white/10 p-3 transition hover:bg-white/20"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+        )}
+      </dialog>
+    </section>
   )
 }
 
@@ -630,7 +789,7 @@ function BookingEngine() {
   const errProps = error ? { 'aria-invalid': true, 'aria-describedby': 'booking-error' } : {}
 
   return (
-    <section id="booking" className="relative px-5 py-24 lg:px-8">
+    <section id="booking" className="relative bg-[#0E1F18] px-5 py-24 lg:px-8">
       <div className="mx-auto max-w-5xl">
         <SectionHeading eyebrow={b.eyebrow} title={b.title} subtitle={b.subtitle} />
 
@@ -902,7 +1061,7 @@ function BookingEngine() {
 function Faq() {
   const { t } = useLang()
   return (
-    <section id="faq" className="relative bg-[#0E1F18] px-5 py-24 lg:px-8">
+    <section id="faq" className="relative px-5 py-24 lg:px-8">
       <div className="mx-auto max-w-3xl">
         <SectionHeading eyebrow={t.faq.eyebrow} title={t.faq.title} subtitle={t.faq.subtitle} />
         <div className="space-y-3">
@@ -1082,6 +1241,7 @@ export default function App() {
           <Hero />
           <ValueProps />
           <Rooms />
+          <Gallery />
           <BookingEngine />
           <Faq />
         </main>
