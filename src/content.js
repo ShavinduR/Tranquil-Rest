@@ -44,7 +44,7 @@ export const content = {
       sub: 'Kosnathota, Godakawela | Your Safe and Relaxing River-side Retreat',
       bookWA: 'Book via WhatsApp',
       viewRooms: 'View Rooms & Rates',
-      badges: ['24/7 CCTV Security', 'Spacious Secure Parking', 'Peaceful River-side Nature'],
+      badges: ['On-site Security · CCTV coming soon', 'Spacious Secure Parking', 'Peaceful River-side Nature'],
       waMsg: 'Hello Tranquil Rest! I would like to make a booking.',
     },
 
@@ -56,9 +56,9 @@ export const content = {
       corporate: {
         tag: 'For Corporate & Sales Reps',
         title: 'Rest easy, your vehicle is safe.',
-        highlight: '24/7 CCTV & Spacious Concrete Parking for Large Lorries',
+        highlight: 'Spacious Concrete Parking for Large Lorries, with Our Team On Site',
         points: [
-          'Round-the-clock CCTV covering the premises',
+          'Our family team on site, with CCTV coming soon',
           'Concrete interlock parking for lorries & distribution vehicles',
           'Flexible day-use and short stays between routes',
         ],
@@ -179,8 +179,8 @@ export const content = {
           a: "Yes. Our spacious concrete interlock parking area is designed for lorries, vans and distribution vehicles, so you never have to leave your vehicle on the roadside.",
         },
         {
-          q: 'Is the property monitored?',
-          a: 'Yes. CCTV covers the premises and the parking area 24/7, and our family team is on site to look after check-ins and the parking area.',
+          q: 'Is the property secure?',
+          a: 'Yes. Our family team is on site to handle check-ins and keep a close eye on the parking area. A CCTV system covering the premises and parking 24/7 is being installed soon.',
         },
         {
           q: "What's the difference between Night, Day Use and Short Stay?",
@@ -252,7 +252,7 @@ export const content = {
       sub: 'කොස්නතොට, ගොඩකවෙල | ඔබට ආරක්ෂිතව සහ සැහැල්ලුවෙන් ගත කළ හැකි ගං ඉවුරේ නවාතැන',
       bookWA: 'WhatsApp හරහා වෙන්කරන්න',
       viewRooms: 'කාමර සහ ගාස්තු බලන්න',
-      badges: ['පැය 24 CCTV ආරක්ෂාව', 'ඉඩකඩ සහිත ආරක්ෂිත වාහන නැවැත්වීම', 'ගං ඉවුරේ සාමකාමී පරිසරය'],
+      badges: ['ස්ථානයේම ආරක්ෂාව · CCTV ළඟදීම', 'ඉඩකඩ සහිත ආරක්ෂිත වාහන නැවැත්වීම', 'ගං ඉවුරේ සාමකාමී පරිසරය'],
       waMsg: 'ආයුබෝවන් Tranquil Rest! මට කාමරයක් වෙන්කර ගැනීමට අවශ්‍යයි.',
     },
 
@@ -264,9 +264,9 @@ export const content = {
       corporate: {
         tag: 'ආයතන සහ විකුණුම් නියෝජිතයින් සඳහා',
         title: 'නිදහසේ විවේක ගන්න, ඔබේ වාහනය ආරක්ෂිතයි.',
-        highlight: 'පැය 24 CCTV සහ විශාල ලොරි සඳහා ඉඩකඩ සහිත කොන්ක්‍රීට් වාහන නැවැත්වීම',
+        highlight: 'විශාල ලොරි සඳහා ඉඩකඩ සහිත කොන්ක්‍රීට් වාහන නැවැත්වීම, අපගේ කණ්ඩායම ස්ථානයේම',
         points: [
-          'දිවා රෑ නොකඩවා පරිශ්‍රය ආවරණය කරන CCTV කැමරා',
+          'අපගේ පවුලේ කණ්ඩායම ස්ථානයේම සිටී, CCTV කැමරා ළඟදීම',
           'ලොරි සහ බෙදාහැරීමේ වාහන සඳහා කොන්ක්‍රීට් ඉන්ටර්ලොක් වාහන නැවැත්වීම',
           'ගමන් අතරතුර දිවා කාලීන සහ කෙටි කාලීන නවාතැන්',
         ],
@@ -388,7 +388,7 @@ export const content = {
         },
         {
           q: 'නවාතැන ආරක්ෂිතද?',
-          a: 'ඔව්. CCTV කැමරා මගින් පරිශ්‍රය සහ වාහන නැවැත්වීමේ ප්‍රදේශය පැය 24 පුරා නිරීක්ෂණය කෙරේ. අපගේ පවුලේ කණ්ඩායම ස්ථානයේම සිට පැමිණීම් සහ වාහන නැවැත්වීම භාරව සිටී.',
+          a: 'ඔව්. අපගේ පවුලේ කණ්ඩායම ස්ථානයේම සිට පැමිණීම් භාරව සිටින අතර වාහන නැවැත්වීමේ ප්‍රදේශය ගැන සමීපව සොයා බලයි. පරිශ්‍රය සහ වාහන නැවැත්වීම පැය 24 පුරා ආවරණය කරන CCTV පද්ධතියක් ළඟදීම සවි කෙරේ.',
         },
         {
           q: 'රාත්‍රී, දිවා කාලය සහ කෙටි කාලීන නවාතැන් අතර වෙනස කුමක්ද?',

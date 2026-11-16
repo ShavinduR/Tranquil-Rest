@@ -8,7 +8,6 @@ import {
   Calculator,
   CalendarDays,
   Car,
-  Cctv,
   ChevronDown,
   Clock,
   HeartHandshake,
@@ -290,7 +289,7 @@ function Navbar() {
 /*  2. Hero                                                            */
 /* ------------------------------------------------------------------ */
 
-const TRUST_ICONS = [Cctv, Truck, Waves]
+const TRUST_ICONS = [ShieldCheck, Truck, Waves]
 
 function Hero() {
   const { t } = useLang()
@@ -367,7 +366,13 @@ function Hero() {
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#0C7350]/30 text-[#3FB98A] ring-1 ring-[#3FB98A]/30">
                   <Icon className="h-5 w-5" />
                 </span>
-                <span className="text-sm font-medium text-[#F2ECDF]">{label}</span>
+                {/* "Main · note" renders the note as a smaller second line */}
+                <span className="flex flex-col text-sm font-medium text-[#F2ECDF]">
+                  {label.split(' · ')[0]}
+                  {label.includes(' · ') && (
+                    <span className="text-xs font-normal text-[#BFB396]">{label.split(' · ')[1]}</span>
+                  )}
+                </span>
               </li>
             )
           })}
@@ -382,7 +387,7 @@ function Hero() {
 /* ------------------------------------------------------------------ */
 
 const AUDIENCES = [
-  { key: 'corporate', icon: Briefcase, pointIcons: [Cctv, Truck, Clock] },
+  { key: 'corporate', icon: Briefcase, pointIcons: [ShieldCheck, Truck, Clock] },
   { key: 'family', icon: HeartHandshake, pointIcons: [Lock, Sparkles, Trees] },
 ]
 
