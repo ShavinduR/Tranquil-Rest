@@ -394,8 +394,8 @@ function Hero() {
 /* ------------------------------------------------------------------ */
 
 const AUDIENCES = [
-  { key: 'corporate', icon: Briefcase, pointIcons: [ShieldCheck, Truck, Clock] },
-  { key: 'family', icon: HeartHandshake, pointIcons: [Lock, Sparkles, Trees] },
+  { key: 'corporate', icon: Briefcase, pointIcons: [ShieldCheck, Truck, Clock], photo: 'exterior-driveway' },
+  { key: 'family', icon: HeartHandshake, pointIcons: [Lock, Sparkles, Trees], photo: 'garden-path' },
 ]
 
 function ValueProps() {
@@ -406,16 +406,30 @@ function ValueProps() {
         <SectionHeading eyebrow={t.why.eyebrow} title={t.why.title} subtitle={t.why.subtitle} />
 
         <div className="grid gap-8 md:grid-cols-2">
-          {AUDIENCES.map(({ key, icon: Icon, pointIcons }) => {
+          {AUDIENCES.map(({ key, icon: Icon, pointIcons, photo }) => {
             const a = t.why[key]
             return (
               <article
                 key={key}
                 className="group relative flex flex-col overflow-hidden rounded-3xl border border-[#D8C9A3]/12 bg-gradient-to-br from-[#1A3A2D] to-[#132C22] p-8 shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-[#3FB98A]/40 sm:p-10"
               >
+                {/* Real property photo (shared with the gallery) */}
+                <picture className="relative -mx-8 -mt-8 mb-0 block aspect-[16/9] overflow-hidden sm:-mx-10 sm:-mt-10">
+                  <source type="image/avif" srcSet={gsrc(photo, 800, 'avif')} />
+                  <img
+                    src={gsrc(photo, 800, 'webp')}
+                    alt={t.gallery.captions[photo]}
+                    width="800"
+                    height="450"
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  />
+                  <span className="absolute inset-0 bg-gradient-to-t from-[#1A3A2D] via-transparent to-transparent" />
+                </picture>
                 <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#0C7350]/25 blur-3xl transition group-hover:bg-[#0C7350]/40" />
-                <div className="relative flex flex-1 flex-col">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0C7350] text-white shadow-lg shadow-[#0C7350]/30">
+                <div className="relative -mt-7 flex flex-1 flex-col">
+                  <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0C7350] text-white shadow-lg shadow-[#0C7350]/30 ring-4 ring-[#1A3A2D]">
                     <Icon className="h-7 w-7" />
                   </span>
                   <p className="mt-6 text-xs font-semibold uppercase tracking-[0.25em] text-[#D8C9A3]">{a.tag}</p>
