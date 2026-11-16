@@ -472,9 +472,9 @@ function Rooms() {
       <div className="mx-auto max-w-6xl">
         <SectionHeading eyebrow={t.rooms.eyebrow} title={t.rooms.title} subtitle={t.rooms.subtitle} />
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2">
           {/* Standard Non-AC – available */}
-          <article className="relative flex flex-col rounded-3xl border border-[#3FB98A]/40 bg-gradient-to-b from-[#1A3A2D] to-[#132C22] p-8 shadow-2xl shadow-[#0C7350]/15 md:col-span-2 lg:col-span-1">
+          <article className="relative flex flex-col rounded-3xl border border-[#3FB98A]/40 bg-gradient-to-b from-[#1A3A2D] to-[#132C22] p-8 shadow-2xl shadow-[#0C7350]/15">
             <span className="absolute -top-3 left-8 rounded-full bg-[#0C7350] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
               {t.rooms.available}
             </span>
@@ -482,6 +482,7 @@ function Rooms() {
               <BedDouble className="h-6 w-6" />
             </span>
             <h3 className="mt-5 font-serif text-2xl font-semibold text-[#F2ECDF]">{t.rooms.standardTitle}</h3>
+            <p className="mt-1 text-sm font-medium text-[#3FB98A]">{t.rooms.standardCount}</p>
             <p className="mt-2 text-sm text-[#BFB396]">{t.rooms.standardText}</p>
 
             <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#D8C9A3]">
@@ -521,11 +522,59 @@ function Rooms() {
             </a>
           </article>
 
+          {/* Family Room – available, rate on request */}
+          <FamilyRoomCard />
+
           <ComingSoonCard icon={Snowflake} {...t.rooms.ac} />
           <ComingSoonCard icon={UtensilsCrossed} {...t.rooms.kitchen} />
         </div>
       </div>
     </section>
+  )
+}
+
+function FamilyRoomCard() {
+  const { t } = useLang()
+  const f = t.rooms.family
+  return (
+    <article className="relative flex flex-col rounded-3xl border border-[#3FB98A]/40 bg-gradient-to-b from-[#1A3A2D] to-[#132C22] p-8 shadow-2xl shadow-[#0C7350]/15">
+      <span className="absolute -top-3 left-8 rounded-full bg-[#0C7350] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+        {t.rooms.available}
+      </span>
+      <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0C7350]/30 text-[#3FB98A] ring-1 ring-[#3FB98A]/30">
+        <Users className="h-6 w-6" />
+      </span>
+      <h3 className="mt-5 font-serif text-2xl font-semibold text-[#F2ECDF]">{f.title}</h3>
+      <p className="mt-1 text-sm font-medium text-[#3FB98A]">{f.count}</p>
+      <p className="mt-2 text-sm text-[#BFB396]">{f.text}</p>
+
+      <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-[#D8C9A3]">{t.rooms.amenitiesTitle}</p>
+      <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-[#E9DFC7]">
+        {f.amenities.map((a) => (
+          <li key={a} className="flex items-start gap-2">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#3FB98A]" />
+            {a}
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-6 flex flex-1 items-start">
+        <div className="flex w-full items-center justify-between gap-3 rounded-2xl border border-[#D8C9A3]/10 bg-[#10241C]/50 px-5 py-4">
+          <span className="text-[#E9DFC7]">{f.rateLabel}</span>
+          <span className="font-serif text-xl font-semibold text-[#F7F2E7]">{f.rateValue}</span>
+        </div>
+      </div>
+
+      <a
+        href={waLink(f.ctaMsg)}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => trackEvent('whatsapp_click', { source: 'family_room' })}
+        className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-[#0C7350] px-6 py-3 font-semibold text-white transition hover:bg-[#0E8A60]"
+      >
+        <MessageCircle className="h-4 w-4" /> {f.cta}
+      </a>
+    </article>
   )
 }
 
@@ -703,7 +752,9 @@ function Gallery() {
 
 const STAYS = ['night', 'day', 'short']
 const VEHICLES = ['none', 'bike', 'car', 'lorry']
-const ROOM_COUNTS = [1, 2, 3, 4, 5]
+const ROOM_TYPES = ['standard', 'family']
+// 4 standard rooms + 1 family room
+const MAX_ROOMS = { standard: 4, family: 1 }
 const GUEST_COUNTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 const TIME = /^\d{2}:\d{2}$/
@@ -727,6 +778,7 @@ function BookingEngine() {
   const [checkOut, setCheckOut] = useState('')
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
+  const [roomType, setRoomType] = useState('standard')
   const [rooms, setRooms] = useState(1)
   const [guests, setGuests] = useState(2)
   const [vehicle, setVehicle] = useState('none')
@@ -736,7 +788,10 @@ function BookingEngine() {
   const today = todayISO()
   const rate = RATES[stay]
   const nights = stay === 'night' ? Math.max(0, nightsBetween(checkIn, checkOut)) : 0
-  const total = stay === 'night' ? (nights > 0 ? rate * nights * rooms : null) : rate * rooms
+  const isFamily = roomType === 'family'
+  const roomCounts = Array.from({ length: MAX_ROOMS[roomType] }, (_, i) => i + 1)
+  // Family Room rate is not published yet, so no estimate is calculated for it
+  const total = isFamily ? null : stay === 'night' ? (nights > 0 ? rate * nights * rooms : null) : rate * rooms
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -745,7 +800,10 @@ function BookingEngine() {
     if (
       !STAYS.includes(stay) ||
       !VEHICLES.includes(vehicle) ||
-      !ROOM_COUNTS.includes(rooms) ||
+      !ROOM_TYPES.includes(roomType) ||
+      !Number.isInteger(rooms) ||
+      rooms < 1 ||
+      rooms > MAX_ROOMS[roomType] ||
       !GUEST_COUNTS.includes(guests)
     ) {
       setError(b.errors.invalid)
@@ -767,7 +825,7 @@ function BookingEngine() {
       stay,
       stayLabel: b.stays[stay],
       nights,
-      roomLabel: b.roomStandard,
+      roomLabel: isFamily ? b.roomFamily : b.roomStandard,
       rooms,
       checkIn: stay === 'night' ? t.formatDate(checkIn) : '',
       checkOut: stay === 'night' ? t.formatDate(checkOut) : '',
@@ -775,11 +833,11 @@ function BookingEngine() {
       time,
       guests,
       vehicleLabel: b.vehicles[vehicle],
-      total,
+      totalText: total ? t.currency(total) : b.rateToConfirm,
       name: name.trim().slice(0, 60),
     })
 
-    trackEvent('whatsapp_booking', { stay, vehicle, rooms })
+    trackEvent('whatsapp_booking', { stay, roomType, vehicle, rooms })
     window.open(waLink(message), '_blank', 'noopener,noreferrer')
   }
 
@@ -925,8 +983,17 @@ function BookingEngine() {
                 <span className={labelClass}>
                   <BedDouble className="h-4 w-4 text-[#3FB98A]" /> {b.room}
                 </span>
-                <select className={fieldClass} defaultValue="standard">
+                <select
+                  value={roomType}
+                  onChange={(e) => {
+                    const v = e.target.value
+                    setRoomType(v)
+                    if (rooms > MAX_ROOMS[v]) setRooms(1)
+                  }}
+                  className={fieldClass}
+                >
                   <option value="standard">{b.roomStandard}</option>
+                  <option value="family">{b.roomFamily}</option>
                   <option value="ac" disabled>
                     {b.roomAC}
                   </option>
@@ -938,7 +1005,7 @@ function BookingEngine() {
                   <BedDouble className="h-4 w-4 text-[#3FB98A]" /> {b.roomsCount}
                 </span>
                 <select value={rooms} onChange={(e) => setRooms(Number(e.target.value))} className={fieldClass}>
-                  {ROOM_COUNTS.map((n) => (
+                  {roomCounts.map((n) => (
                     <option key={n} value={n}>
                       {n}
                     </option>
@@ -998,12 +1065,16 @@ function BookingEngine() {
                 <div>
                   <p className="text-sm font-medium text-[#E9DFC7]">{b.estimate}</p>
                   <p className="text-xs text-[#BFB396]">
-                    {total ? b.breakdown({ rate, nights, rooms, stay }) : b.estimatePending}
+                    {isFamily
+                      ? b.familyEstimate
+                      : total
+                        ? b.breakdown({ rate, nights, rooms, stay })
+                        : b.estimatePending}
                   </p>
                 </div>
               </div>
               <p className="whitespace-nowrap font-serif text-2xl font-semibold text-[#F7F2E7]">
-                {total ? t.currency(total) : '—'}
+                {total ? t.currency(total) : isFamily ? b.onRequest : '—'}
               </p>
             </div>
             <p className="mt-2 text-xs text-[#BFB396]">{b.estimateNote}</p>
