@@ -87,7 +87,7 @@ export const content = {
       subtitle: 'Comfortable, well-furnished rooms at fair rates, with more on the way.',
       available: 'Available Now',
       standardTitle: 'Standard Non-AC Room',
-      standardText: 'Clean, airy and comfortable, with secure parking included.',
+      standardText: 'Clean, airy and comfortable, with a private attached bathroom and secure parking included.',
       amenitiesTitle: "What's in the room",
       amenities: ['Double bed', 'Attached bathroom', 'Fresh towels & linen', 'Dressing table & mirror', 'Fan', 'Free Wi-Fi'],
       rateLabels: { day: 'Day Use', night: 'Night', short: 'Short Stay' },
@@ -209,6 +209,10 @@ export const content = {
           q: 'Do the rooms have air conditioning?',
           a: 'Not yet. All 5 rooms are currently non-AC with fans. Two rooms are being upgraded to Premium AC rooms very soon.',
         },
+        {
+          q: 'Do the rooms have attached bathrooms?',
+          a: 'Yes. Every room has its own private attached bathroom with a washbasin, mirror and western-style toilet.',
+        },
         { q: 'Is there Wi-Fi?', a: 'Yes, free high-speed Wi-Fi for all guests.' },
         {
           q: 'Can I get food?',
@@ -314,7 +318,7 @@ export const content = {
       subtitle: 'සාධාරණ මිලට සුවපහසු, හොඳින් සපයා ඇති කාමර. තවත් පහසුකම් ළඟදීම.',
       available: 'දැන් ලබා ගත හැක',
       standardTitle: 'සාමාන්‍ය Non-AC කාමරය',
-      standardText: 'පිරිසිදු, වාතාශ්‍රය සහිත සහ සුවපහසු. ආරක්ෂිත වාහන නැවැත්වීම ද ඇතුළුව.',
+      standardText: 'පිරිසිදු, වාතාශ්‍රය සහිත සහ සුවපහසු. කාමරයටම අයත් පෞද්ගලික නාන කාමරයක් සහ ආරක්ෂිත වාහන නැවැත්වීම ද ඇතුළුව.',
       amenitiesTitle: 'කාමරයේ ඇති පහසුකම්',
       amenities: ['ඩබල් ඇඳ', 'කාමරයටම අයත් නාන කාමරය', 'නැවුම් තුවා සහ ඇඳ ඇතිරිලි', 'කැඩපත සහිත ඇඳුම් මේසය', 'විදුලි පංකාව', 'නොමිලේ Wi-Fi'],
       rateLabels: { day: 'දිවා කාලය', night: 'රාත්‍රිය', short: 'කෙටි කාලීන' },
@@ -435,6 +439,10 @@ export const content = {
         {
           q: 'කාමරවල වායුසමීකරණ (AC) තිබේද?',
           a: 'තවම නැත. දැනට කාමර 5ම විදුලි පංකා සහිත Non-AC කාමර වේ. කාමර දෙකක් ළඟදීම ප්‍රිමියම් AC කාමර ලෙස උසස් කෙරේ.',
+        },
+        {
+          q: 'කාමරවලට අයත් නාන කාමර තිබේද?',
+          a: 'ඔව්. සෑම කාමරයකටම කැඩපත, අත් සෝදන බේසම සහ කොමඩ් වැසිකිළිය සහිත පෞද්ගලික නාන කාමරයක් ඇත.',
         },
         { q: 'Wi-Fi තිබේද?', a: 'ඔව්, සියලුම අමුත්තන්ට නොමිලේ අධිවේගී Wi-Fi.' },
         {
