@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Nunito Sans Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display Variable", Georgia, serif;
+  --font-sans: "Nunito Sans Variable", "Noto Sans Sinhala Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display Variable", "Noto Serif Sinhala Variable", Georgia, serif;
 }
 
 html {
@@ -15,10 +15,25 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Make the native date picker icon visible on the dark theme */
-input[type="date"]::-webkit-calendar-picker-indicator {
+/* Make the native date/time picker icons visible on the dark theme */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(0.85) sepia(0.3);
   cursor: pointer;
+}
+
+/* Sinhala: wide letter-spacing breaks conjunct letters, and Sinhala
+   script needs a little more line height to stay readable. */
+html:lang(si) body * {
+  letter-spacing: normal !important;
+}
+html:lang(si) body {
+  line-height: 1.65;
+}
+html:lang(si) h1,
+html:lang(si) h2,
+html:lang(si) h3 {
+  line-height: 1.35;
 }
 
 /* Respect users who prefer reduced motion */
